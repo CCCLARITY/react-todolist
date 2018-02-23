@@ -12,6 +12,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "homepage": "https://ccclarity.github.io/react-todolist"
+    "homepage": "https://ccclarity.github.io/react-todolist/build"
   }
 }
