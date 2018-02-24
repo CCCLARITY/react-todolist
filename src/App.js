@@ -12,28 +12,39 @@ class App extends Component {
     this.state = {
       newTodo: '',
       todoList: [
-        {id: '1', title: '第一个待办'},
-        {id: '2', title: '第二个待办'}
       ]
     }
   }
 
   render() {
     let todos = this.state.todoList.map((item, index)=>{
-      return <li><TodoItem todo={item}/></li>
+      return (
+        <li key={index}>
+          <TodoItem todo={item}/>
+        </li>
+      )
     })
     
     return (
       <div className="App">
         <h1>我的时间清单</h1>
         <div className="inputWrapper">
-          <TodoInput content={this.state.newTodo} onSubmit={this.addTodo.bind(this)}/>
+          <TodoInput content={this.state.newTodo} 
+            onChange={this.changeTitle.bind(this)} 
+            onSubmit={this.addTodo.bind(this)} />
         </div>
         <ol>
           {todos}
         </ol>
       </div>
     );
+  }
+
+  changeTitle(event){
+    this.setState({
+      newTodo: event.target.value,
+      todoList: this.state.todoList
+    })
   }
 
   addTodo(event){
@@ -49,6 +60,7 @@ class App extends Component {
     })
   }
 
+  
 
 }
 
