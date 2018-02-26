@@ -5,13 +5,15 @@ import TodoItem from './TodoItem';
 import 'normalize.css';
 import './reset.css';
 import './index.css';
+import * as localStorage from './localStorage'
 
 class App extends Component {
   constructor(props){
     super(props)
     this.state = {
       newTodo: '',
-      todoList: []
+      todoList: localStorage.load('todoList')||[]
+
     }
   }
 
@@ -41,10 +43,14 @@ class App extends Component {
     );
   }
 
+  componentDidUpdate(){
+    localStorage.save('todoList', this.state.todoList)
+  }
+
   delete(e, todo){                      //点击按钮，将事项的删除属性设置为true
     todo.delete = true
     this.setState(this.state)
-    console.log(this.state)
+    
   }
 
   toggle(e, todo){                         //实现的是当点击复选框时实现状态的改变
