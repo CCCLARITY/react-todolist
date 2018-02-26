@@ -12,3 +12,9 @@
 .App>h1{
   font-family: "Times New Roman", Times, serif;
 }
+.App > .todoList >li:nth-child(odd){
+  background: #eee;
+}
+.App > .todoList >li:nth-child(even){
+  background: transparent;
+}

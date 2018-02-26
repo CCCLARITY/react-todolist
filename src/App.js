@@ -11,16 +11,17 @@ class App extends Component {
     super(props)
     this.state = {
       newTodo: '',
-      todoList: [
-      ]
+      todoList: []
     }
   }
 
   render() {
-    let todos = this.state.todoList.map((item, index)=>{
+    let todos = this.state.todoList.filter((item)=>!item.delete).map((item, index)=>{
       return (
         <li key={index}>
-          <TodoItem todo={item}/>
+          <TodoItem todo={item} 
+            onToggle={this.toggle.bind(this)}
+            onDelete={this.delete.bind(this)}/>
         </li>
       )
     })
@@ -33,11 +34,22 @@ class App extends Component {
             onChange={this.changeTitle.bind(this)} 
             onSubmit={this.addTodo.bind(this)} />
         </div>
-        <ol>
+        <ol className="todoList">
           {todos}
         </ol>
       </div>
     );
+  }
+
+  delete(e, todo){                      //点击按钮，将事项的删除属性设置为true
+    todo.delete = true
+    this.setState(this.state)
+    console.log(this.state)
+  }
+
+  toggle(e, todo){                         //实现的是当点击复选框时实现状态的改变
+    todo.status = todo.status === 'completed' ? '':'completed'
+    this.setState(this.state)
   }
 
   changeTitle(event){
@@ -59,9 +71,6 @@ class App extends Component {
       todoList: this.state.todoList
     })
   }
-
-  
-
 }
 
 export default App;
