@@ -8,8 +8,8 @@ import './index.css';
 import * as localStorage from './localStorage';
 import AV from 'leancloud-storage';
 
-var APP_ID = 'b9OoTkQBNNHlmUzfaPml83nc-gzGzoHsz';
-var APP_KEY = 'UAimgy4tG213zY7S9Urakkje';
+var APP_ID = 'As0jeXVikLpvucJD7bA61VBk-gzGzoHsz';
+var APP_KEY = 'AceBf1kFRFQfw2J1Ucxjg0LS';
 
 AV.init({
   appId: APP_ID,
