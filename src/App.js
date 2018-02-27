@@ -6,23 +6,6 @@ import 'normalize.css';
 import './reset.css';
 import './index.css';
 import * as localStorage from './localStorage';
-import AV from 'leancloud-storage';
-
-var APP_ID = 'As0jeXVikLpvucJD7bA61VBk-gzGzoHsz';
-var APP_KEY = 'AceBf1kFRFQfw2J1Ucxjg0LS';
-
-AV.init({
-  appId: APP_ID,
-  appKey: APP_KEY
-});
-
-var TestObject = AV.Object.extend('TestObject');
-var testObject = new TestObject();
-testObject.save({
-  words: 'Hello World!'
-}).then(function(object) {
-  alert('LeanCloud Rocks!');
-})
 
 class App extends Component {
   constructor(props){
