@@ -6,14 +6,14 @@ import 'normalize.css';
 import './reset.css';
 import './index.css';
 import * as localStorage from './localStorage';
+import UserDialog from './UserDialog.js';
 
 class App extends Component {
   constructor(props){
     super(props)
     this.state = {
       newTodo: '',
-      todoList: localStorage.load('todoList')||[]
-
+      todoList: []
     }
   }
 
@@ -39,12 +39,13 @@ class App extends Component {
         <ol className="todoList">
           {todos}
         </ol>
+        <UserDialog />
       </div>
     );
   }
 
   componentDidUpdate(){
-    localStorage.save('todoList', this.state.todoList)
+    
   }
 
   delete(e, todo){                      //点击按钮，将事项的删除属性设置为true
