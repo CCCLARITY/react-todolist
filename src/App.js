@@ -7,6 +7,14 @@ import './reset.css';
 import './index.css';
 import * as localStorage from './localStorage'
 
+var APP_ID = 'b9OoTkQBNNHlmUzfaPml83nc-gzGzoHsz';
+var APP_KEY = 'UAimgy4tG213zY7S9Urakkje';
+
+AV.init({
+  appId: APP_ID,
+  appKey: APP_KEY
+});
+
 class App extends Component {
   constructor(props){
     super(props)
