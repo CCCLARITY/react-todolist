@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import './UserDialog.css'
+import {signUp, signIn} from './leanCloud'
 
 class UserDialog extends Component{
     constructor(props){
@@ -19,20 +20,43 @@ class UserDialog extends Component{
         })
     }
     
-    signUp(e){}
-    signIn(e){}
+    signUp(e){
+        e.preventDefault()
+        let {username, password} = this.state.formData;
+        let success = (user) => {
+            this.props.onSignUp.call(null, user)
+        }
+        let error = (error) => {
+            switch(error.code){
+                case 202:
+                  alert('用户名已被占用')
+                  break
+                default:
+                  alert(error)
+                  break
+            }
+        }
+        signUp(username, password, success, error)
+    }
+    signIn(e){
+        e.preventDefault()
+        let {username, password} = this.state.formData;
+        let success = (user) => {
+            this.props.onSignIn.call(null, user)
+        }
 
-    // changeUsername(e){
-    //     let stateCopy = JSON.parse(JSON.stringify(this.state))   // JSON深拷贝
-    //     stateCopy.formData.username = e.target.value
-    //     this.setState(stateCopy)
-    // }
-
-    // changePassword(e){
-    //     let stateCopy = JSON.parse(JSON.stringify(this.state))   // JSON深拷贝
-    //     stateCopy.formData.password = e.target.value
-    //     this.setState(stateCopy)
-    // }
+        let error = (error) => {
+            switch(error.code){
+              case 210:
+                alert('用户名与密码不匹配')
+                break
+              default:
+                alert(error)
+                break
+            }
+        }
+        signIn(username, password, success, error)
+    }
 
     changeFormData(key, e){
         let stateCopy = JSON.parse(JSON.stringify(this.state))   // JSON深拷贝
@@ -68,7 +92,7 @@ class UserDialog extends Component{
                 </div>
                 <div className="row">
                     <label>密码</label>
-                    <input type="password" value={this.state.formData.username}
+                    <input type="password" value={this.state.formData.password}
                         onChange={this.changeFormData.bind(this, 'password')}/>
                 </div>
                 <div className="row actions">
@@ -80,9 +104,17 @@ class UserDialog extends Component{
         return (
             <div className="UserDialog-Wrapper">
                 <div className="UserDialog">
-                    <nav onChange={this.switch.bind(this)}>
-                        <label><input type="radio" value="signUp" checked={this.state.selected === 'signUp'}/>注册</label>
-                        <label><input type="radio" value="signIn" checked={this.state.selected === 'signIn'}/>登录</label>
+                    <nav>
+                        <label>
+                            <input type="radio" value="signUp" 
+                                checked={this.state.selected === 'signUp'}
+                                onChange={this.switch.bind(this)}/>注册
+                        </label>
+                        <label>
+                            <input type="radio" value="signIn" 
+                                checked={this.state.selected === 'signIn'}
+                                onChange={this.switch.bind(this)}/>登录
+                        </label>
                     </nav>
                     <div className="panes">
                         {this.state.selected === 'signUp'?signUpForm:null}

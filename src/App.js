@@ -5,13 +5,14 @@ import TodoItem from './TodoItem';
 import 'normalize.css';
 import './reset.css';
 import './index.css';
-import * as localStorage from './localStorage';
 import UserDialog from './UserDialog.js';
+import {getCurrentUser, signOut} from './leanCloud'
 
 class App extends Component {
   constructor(props){
     super(props)
     this.state = {
+      user: getCurrentUser() || {},
       newTodo: '',
       todoList: []
     }
@@ -30,7 +31,9 @@ class App extends Component {
     
     return (
       <div className="App">
-        <h1>我的时间清单</h1>
+        <h1>{this.state.user.username||'我'}的时间清单
+          {this.state.user.id ? <button onClick={this.signOut.bind(this)}>登出</button>:null}
+        </h1>
         <div className="inputWrapper">
           <TodoInput content={this.state.newTodo} 
             onChange={this.changeTitle.bind(this)} 
@@ -39,9 +42,26 @@ class App extends Component {
         <ol className="todoList">
           {todos}
         </ol>
-        <UserDialog />
+        {this.state.user.id ? 
+          null : 
+          <UserDialog onSignUp={this.SignUpOrSignIn.bind(this)} onSignIn={this.SignUpOrSignIn.bind(this)}
+          />}
       </div>
     );
+  }
+
+  signOut(){
+    signOut()    // 这个signOut是leanCloud中的signOut，不加这个不能将user.id变空
+    let stateCopy = JSON.parse(JSON.stringify(this.state))
+    stateCopy.user = {}
+    stateCopy.todoList = []
+    this.setState(stateCopy)
+  }
+
+  SignUpOrSignIn(user){
+    let stateCopy = JSON.parse(JSON.stringify(this.state))
+    stateCopy.user = user
+    this.setState(stateCopy)
   }
 
   componentDidUpdate(){
