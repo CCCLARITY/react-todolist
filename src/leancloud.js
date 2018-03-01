@@ -10,13 +10,15 @@ AV.init({
 
 export default AV;
 
-function signUp(username, password, successFn, errorFn){
+function signUp(email, username, password, successFn, errorFn){
     // 新建 AVUser 对象实例
     var user = new AV.User();
     // 设置用户名
     user.setUsername(username);
     // 设置密码
     user.setPassword(password);
+    // 设置邮箱
+    user.setEmail(email);
 
     user.signUp().then(function (loginedUser) {
         console.log(loginedUser);
@@ -59,7 +61,16 @@ function signOut(){
     return undefined
 }
 
+function sendPasswordResetEmail(email, successFn, errorFn){
+    AV.User.requestEmailVerify(email).then(function (result) {
+        successFn.call()
+    }, function (error) {
+        successFn.call(null, error)
+    });
+}
+
 export {signUp};
 export {getCurrentUser};
 export {signOut};
 export {signIn};
+export {sendPasswordResetEmail};
